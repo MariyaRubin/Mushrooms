@@ -1,0 +1,68 @@
+
+theURL <- "https://raw.githubusercontent.com/MariyaRubin/Mushrooms/master/Mushroom.csv";
+
+mushroomsDB <- read.table(theURL, header = FALSE,  sep = ",", stringsAsFactors = FALSE);
+
+write.table(mushroomsDB, file = "Mushroom.csv", sep = ",");
+
+mushroomsDB <- mushroomsDB[1:100, c(1, 2, 3, 4)];
+
+names(mushroomsDB) <- c("class", "cap-shape", "cap-surface", "cap-color");
+
+
+
+transformClassData <- function(key){
+  switch (key,
+    'p' = 'poisonous',
+    'e' = 'edible'
+  )
+}
+
+
+transformCapShapeData <- function(key){
+  switch (key,
+          'b' = 'bell',
+          'c' = 'conical',
+          'x' = 'convex',
+          'f' = 'flat',
+          'k' = 'knobbed',
+          's' = 'sunken'
+  )
+}
+
+
+transformCapSurfaceData <- function(key){
+  switch (key,
+          'f' = 'fibrous',
+          'g' = 'grooves',
+          'y' = 'scaly',
+          's' = 'smooth'
+  )
+}
+
+
+transformCapColorData <- function(key){
+  switch (key,
+          'n' = 'brown',
+          'b' = 'buff',
+          'c' = 'cinnamon',
+          'g' = 'gray',
+          'r' = 'green',
+          'p' = 'pink',
+          'u' = 'purple',
+          'e' = 'red',
+          'w' = 'white',
+          'y' = 'yellow'
+  )
+}
+
+
+mushroomsDB$`class` <- sapply(mushroomsDB$class, transformClassData);
+mushroomsDB$`cap-shape` <-sapply(mushroomsDB$`cap-shape`, transformCapShapeData);
+mushroomsDB$`cap-color` <-sapply(mushroomsDB$`cap-color`, transformCapColorData);
+mushroomsDB$`cap-surface` <-sapply(mushroomsDB$`cap-surface`, transformCapSurfaceData);
+
+head(mushroomsDB);
+
+
+
